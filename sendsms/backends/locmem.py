@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 """
 Backend for test environment.
 """
@@ -16,7 +17,7 @@ class SmsBackend(BaseSmsBackend):
     def __init__(self, *args, **kwargs):
         super(SmsBackend, self).__init__(*args, **kwargs)
         if not hasattr(sendsms, 'outbox'):
-            mail.outbox = []
+            sendsms.outbox = []
 
     def send_messages(self, messages):
         """Redirect messages to the dummy outbox"""

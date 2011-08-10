@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 """
 Dummy sms backend that does nothing.
 """
