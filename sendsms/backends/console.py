@@ -27,6 +27,7 @@ class SmsBackend(BaseSmsBackend):
                 stream_created = self.open()
                 for message in messages:
                     self.stream.write(render_message(message))
+                    self.stream.write('\n')
                     self.stream.write('-'*79)
                     self.stream.write('\n')
                     self.stream.flush()  # flush after each message
