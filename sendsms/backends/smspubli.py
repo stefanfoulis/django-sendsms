@@ -17,7 +17,7 @@ SMSPUBLI_USERNAME = getattr(settings, 'SMSPUBLI_USERNAME', '')
 SMSPUBLI_PASSWORD = getattr(settings, 'SMSPUBLI_PASSWORD', '')
 SMSPUBLI_ALLOW_LONG_SMS = getattr(settings, 'SMSPUBLI_ALLOW_LONG_SMS', False)
 
-class SMSBackend(BaseSmsBackend):
+class SmsBackend(BaseSmsBackend):
     """ 
     SMS Backend smspubli.com provider.
     """
@@ -39,16 +39,17 @@ class SMSBackend(BaseSmsBackend):
             params['LM'] = '1'
 
         response = requests.post(SMSPUBLI_API_URL, params)
-        if response.status_code != 200 and not self.fail_silently:
-            raise
-        else:
-            return False
+        if response.status_code != 200:
+            if  not self.fail_silently:
+                raise
+            else:
+                return False
 
         response_msg, response_code = response.content.split(':')
         if response_msg == 'OK':
             try:
                 if "," in response_code:
-                    codes = map(int, response_code.split(",")
+                    codes = map(int, response_code.split(","))
                 else:
                     codes = [int(response_code)]
 
@@ -58,6 +59,7 @@ class SMSBackend(BaseSmsBackend):
                         pass
                     elif code == -3:
                         #: TODO send error signal (incorrect num)
+                        pass
 
                 return True
 
