@@ -4,8 +4,7 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.encoding import force_unicode
 
-from lxml import etree
-import requests, logging
+import requests
 
 from .base import BaseSmsBackend
 
