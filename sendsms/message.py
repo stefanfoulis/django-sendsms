@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
-from sendsms import conf
-from sendsms.api import get_connection
+from sendsms import get_connection
+from django.conf import settings
 
 class SmsMessage(object):
     """
@@ -11,11 +11,12 @@ class SmsMessage(object):
         Initialize a single SMS message (which can be sent to multiple recipients)
         """
         if to:
-#            assert not isinstance(to, basetring), '"to" argument must be a list or tuple'
+            #assert not isinstance(to, basetring), '"to" argument must be a list or tuple'
             self.to = list(to)
         else:
             self.to = []
-        self.from_phone = from_phone or conf.DEFAULT_FROM_PHONE
+
+        self.from_phone = from_phone or getattr(settings, 'DEFAULT_FROM_PHONE', '')
         self.body = body
         self.flash = flash
         self.connection = connection
