@@ -30,6 +30,7 @@ def get_connection(path=None, fail_silently=False, **kwargs):
     :param string path: backend python path. Default: sendsms.backends.console.SmsBackend
     :param bool fail_silently: Flag to not throw exceptions on error. Default: False
     :returns: backend class instance.
+    :rtype: :py:class:`~sendsms.backends.base.BaseSmsBackend` subclass
     """
 
     path = path or getattr(settings, 'SMS_BACKEND', 'sendsms.backends.console.SmsBackend')

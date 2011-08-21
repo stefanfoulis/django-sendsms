@@ -7,6 +7,7 @@ Configuration example.
 ----------------------
 
 Modify your settings.py::
+
     SMSPUBLI_USERNAME = 'yourusername'
     SMSPUBLI_PASSWORD = 'mysecretpassword'
     SMSPUBLI_ALLOW_LONG_SMS = True # or False
@@ -14,6 +15,7 @@ Modify your settings.py::
 
 
 Usage::
+
     from sendsms.message import SmsMessage
     message = SmsMessage(
         body = 'my 160 chars sms',

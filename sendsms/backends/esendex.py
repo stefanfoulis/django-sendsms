@@ -3,9 +3,10 @@
 Esendex sms gateway backend. (http://www.esendex.es/)
 
 Configuration example.
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 Modify your settings.py::
+    
     ESENDEX_USERNAME = 'yourusername'
     ESENDEX_PASSWORD = 'mysecretpassword'
     ESENDEX_ACCOUNT = 'account-key-provided-by-esendex'
@@ -13,6 +14,7 @@ Modify your settings.py::
     INSTALLED_APPS += ['sendsms']
 
 Usage::
+    
     from sendsms.message import SmsMessage
     message = SmsMessage(
         body = 'my 160 chars sms',
