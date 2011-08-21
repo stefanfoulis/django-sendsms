@@ -23,7 +23,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.utils.importlib import import_module
 
 
-def get_backend_instance(path=None, fail_silently=False, **kwargs):
+def get_connection(path=None, fail_silently=False, **kwargs):
     """
     Load an sms backend and return an instance of it.
 

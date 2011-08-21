@@ -16,7 +16,7 @@ ESENDEX_ACCOUNT = getattr(settings, 'ESENDEX_ACCOUNT', '')
 ESENDEX_SANDBOX = getattr(settings, 'ESENDEX_SANDBOX', False)
 
 
-class SMSBackend(BaseSmsBackend):
+class SmsBackend(BaseSmsBackend):
     """ 
     SMS Backend for esendex.es provider.
     """
@@ -28,41 +28,42 @@ class SMSBackend(BaseSmsBackend):
         return response_dict
 
     def _send(self, message):
-        try:
-            params = {
-                'EsendexUsername': ESENDEX_USERNAME,
-                'EsendexPassword': ESENDEX_PASSWORD,
-                'EsendexAccount': ESENDEX_ACCOUNT, 
-                'EsendexOriginator': message.from_phone, 
-                'EsendexRecipient': ",".join(message.to),
-                'EsendexBody': message.body,
-                'EsendexPlainText':'1'
-            }
-            if ESENDEX_SANDBOX:
-                params['EsendexTest'] = '1'
+        params = {
+            'EsendexUsername': ESENDEX_USERNAME,
+            'EsendexPassword': ESENDEX_PASSWORD,
+            'EsendexAccount': ESENDEX_ACCOUNT, 
+            'EsendexOriginator': message.from_phone, 
+            'EsendexRecipient': ",".join(message.to),
+            'EsendexBody': message.body,
+            'EsendexPlainText':'1'
+        }
+        if ESENDEX_SANDBOX:
+            params['EsendexTest'] = '1'
 
-            response = requests.post(ESENDEX_API_URL, params)
-            if response.status_code != 200 and not self.fail_silently:
+        response = requests.post(ESENDEX_API_URL, params)
+        if response.status_code != 200:
+            if not self.fail_silently:
                 raise
             else:
                 return False
-
-            if not response.content.startswith('Result') and not self.fail_silently:
+        
+        if not response.content.startswith('Result'):
+            if not self.fail_silently:
                 raise
-            else:
+            else: 
                 return False
 
-            response = self._parse_response(response.content)
-            if ESENDEX_SANDBOX and response['Result'] == 'Test':
+        response = self._parse_response(response.content)
+        if ESENDEX_SANDBOX and response['Result'] == 'Test':
+            return True
+        else:
+            if response['Result'] == 'OK':
                 return True
             else:
-                if response['Result'] == 'OK':
-                    return True
-                else:
-                    if not self.fail_silently:
-                        raise
-            
-            return False
+                if not self.fail_silently:
+                    raise
+        
+        return False
 
     def send_messages(self, messages):
         counter = 0
