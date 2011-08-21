@@ -1,5 +1,28 @@
 # -*- coding: utf-8 -*-
 
+"""
+SmsPubli sms gateway backend. (http://www.smspubli.com)
+
+Configuration example.
+----------------------
+
+Modify your settings.py::
+    SMSPUBLI_USERNAME = 'yourusername'
+    SMSPUBLI_PASSWORD = 'mysecretpassword'
+    SMSPUBLI_ALLOW_LONG_SMS = True # or False
+    INSTALLED_APPS += ['sendsms']
+
+
+Usage::
+    from sendsms.message import SmsMessage
+    message = SmsMessage(
+        body = 'my 160 chars sms',
+        from_phone = '111111111',
+        to = ['222222222']
+    )
+    message.send()
+"""
+
 import requests, logging
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
@@ -23,6 +46,14 @@ class SmsBackend(BaseSmsBackend):
     """
 
     def _send(self, message):
+        """
+        Private method for send one message.
+
+        :param SmsMessage message: SmsMessage class instance.
+        :returns: True if message is sended else False
+        :rtype: bool
+        """
+
         params = {
             'V': SMSPUBLI_API_VERSION, 
             'UN': SMSPUBLI_USERNAME, 
@@ -71,6 +102,14 @@ class SmsBackend(BaseSmsBackend):
         return False
 
     def send_messages(self, messages):
+        """
+        Send messages.
+
+        :param list messages: List of SmsMessage instences.
+        :returns: number of messages seded succesful.
+        :rtype: int
+        """
+
         counter = 0
         for message in messages:
             res = self._send(message)
