@@ -17,7 +17,7 @@ class SmsMessage(object):
         else:
             self.to = []
 
-        self.from_phone = from_phone or getattr(settings, 'DEFAULT_FROM_PHONE', '')
+        self.from_phone = from_phone or getattr(settings, 'SENDSMS_DEFAULT_FROM_PHONE', '')
         self.body = body
         self.flash = flash
         self.connection = connection
