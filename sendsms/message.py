@@ -35,6 +35,6 @@ class SmsMessage(object):
             # Don't bother creating the connection if there's nobody to send to
             return 0
         res = self.get_connection(fail_silently).send_messages([self])
-        sms_post_send.send(sender=self, to=self.to, from_phone=self.from_phone, body=body)
+        sms_post_send.send(sender=self, to=self.to, from_phone=self.from_phone, body=self.body)
         return res
 
