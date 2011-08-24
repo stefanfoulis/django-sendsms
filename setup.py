@@ -16,6 +16,10 @@ setup(
     maintainer_email='stefan.foulis@gmail.com',
     packages=find_packages(),
     include_package_data=True,
+    extras_require = {
+      'esendex': ['requests'],
+      'twilio': ['twilio'],
+    },
     zip_safe=False,
     classifiers=[
         'Development Status :: 3 - Alpha',
