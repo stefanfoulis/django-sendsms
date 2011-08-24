@@ -25,7 +25,7 @@ class TestApi(unittest.TestCase):
 
     def test_send_esendex_sandbox(self):
         from sendsms.message import SmsMessage
-        from sendsms import get_connection
+        from sendsms.api import get_connection
 
         connection = get_connection('sendsms.backends.esendex.SmsBackend')
         obj = SmsMessage(body="test", from_phone='111111111', to=['222222222'], connection=connection)
