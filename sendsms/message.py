@@ -1,5 +1,5 @@
 #-*- coding: utf-8 -*-
-from sendsms import get_connection
+from sendsms.api import get_connection
 from django.conf import settings
 
 class SmsMessage(object):
