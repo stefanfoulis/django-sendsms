@@ -7,7 +7,7 @@ import sendsms
 
 if not settings.configured:
     settings.configure(
-        SMS_BACKEND = 'sendsms.backends.locmem.SmsBackend',
+        SENDSMS_BACKEND = 'sendsms.backends.locmem.SmsBackend',
         ESENDEX_USERNAME = 'niwibe',
         ESENDEX_PASSWORD = '123123',
         ESENDEX_ACCOUNT = '123123',
