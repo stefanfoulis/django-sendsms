@@ -45,7 +45,17 @@ SMSPUBLI_ALLOW_LONG_SMS = getattr(settings, 'SMSPUBLI_ALLOW_LONG_SMS', False)
 class SmsBackend(BaseSmsBackend):
     """ 
     SMS Backend smspubli.com provider.
+
+    The methods "get_xxxxxx" serve to facilitate the inheritance. Thus if a private 
+    project in the access data are dynamic, and are stored in the database. A child 
+    class overrides the method "get_xxxx" to return data stored in the database.
     """
+
+    def get_username(self):
+        return SMSPUBLI_USERNAME
+    
+    def get_password(self):
+        return SMSPUBLI_PASSWORD
 
     def _send(self, message):
         """

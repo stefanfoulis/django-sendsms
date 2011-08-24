@@ -52,7 +52,7 @@ def get_connection(path=None, fail_silently=False, **kwargs):
     :rtype: :py:class:`~sendsms.backends.base.BaseSmsBackend` subclass
     """
 
-    path = path or getattr(settings, 'SENDSMS_BACKEND', 'sendsms.backends.console.SmsBackend')
+    path = path or getattr(settings, 'SENDSMS_BACKEND', 'sendsms.backends.locmem.SmsBackend')
     try:
         mod_name, klass_name = path.rsplit('.', 1)
         mod = import_module(mod_name)

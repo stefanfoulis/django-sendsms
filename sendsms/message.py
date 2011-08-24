@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 from sendsms.api import get_connection
+from sendsms.signals import sms_post_send
 from django.conf import settings
 
 class SmsMessage(object):
@@ -16,7 +17,7 @@ class SmsMessage(object):
         else:
             self.to = []
 
-        self.from_phone = from_phone or getattr(settings, 'DEFAULT_FROM_PHONE', '')
+        self.from_phone = from_phone or getattr(settings, 'SENDSMS_DEFAULT_FROM_PHONE', '')
         self.body = body
         self.flash = flash
         self.connection = connection
@@ -33,5 +34,7 @@ class SmsMessage(object):
         if not self.to:
             # Don't bother creating the connection if there's nobody to send to
             return 0
-        return self.get_connection(fail_silently).send_messages([self])
+        res = self.get_connection(fail_silently).send_messages([self])
+        sms_post_send.send(sender=self, to=self.to, from_phone=self.from_phone, body=self.body)
+        return res
 
