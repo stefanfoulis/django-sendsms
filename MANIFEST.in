@@ -1,2 +1,3 @@
 include LICENSE
+include AUTHORS.rst
 include README.rst
