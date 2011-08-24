@@ -7,11 +7,11 @@ import sendsms
 from sendsms.backends.base import BaseSmsBackend
 
 class SmsBackend(BaseSmsBackend):
-    """A sms backend for use during test sessions.
+    """
+    A sms backend for use during test sessions.
 
     The test connection stores messages in a dummy outbox,
     rather than sending them out on the wire.
-
     The dummy outbox is accessible through the outbox instance attribute.
     """
     def __init__(self, *args, **kwargs):
