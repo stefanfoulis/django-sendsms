@@ -49,6 +49,13 @@ class SmsBackend(BaseSmsBackend):
 
     """
 
+    def __init__(self, fail_silently=False, **kwargs):
+        super(SmsBackend, self).__init__(fail_silently=fail_silently, **kwargs)
+        self.open()
+
+    def __del__(self):
+        self.close()
+
     def open(self):
         """Initializes sms.sluzba.cz API library."""
         self.client = SmsGateApi(getattr(settings, 'SMS_SLUZBA_API_LOGIN', ''),
@@ -86,4 +93,5 @@ class SmsBackend(BaseSmsBackend):
                         raise
                 else:
                     count += 1
+
         return count
