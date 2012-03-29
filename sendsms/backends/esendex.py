@@ -77,14 +77,14 @@ class SmsBackend(BaseSmsBackend):
         Private method for send one message.
 
         :param SmsMessage message: SmsMessage class instance.
-        :returns: True if message is sended else False
+        :returns: True if message is sent else False
         :rtype: bool
         """
 
         params = {
-            'EsendexUsername': ESENDEX_USERNAME,
-            'EsendexPassword': ESENDEX_PASSWORD,
-            'EsendexAccount': ESENDEX_ACCOUNT, 
+            'EsendexUsername': self.get_username(),
+            'EsendexPassword': self.get_password(),
+            'EsendexAccount': self.get_account(), 
             'EsendexOriginator': message.from_phone, 
             'EsendexRecipient': ",".join(message.to),
             'EsendexBody': message.body,
@@ -96,25 +96,26 @@ class SmsBackend(BaseSmsBackend):
         response = requests.post(ESENDEX_API_URL, params)
         if response.status_code != 200:
             if not self.fail_silently:
-                raise
+                raise Exception('Bad status code')
             else:
                 return False
         
         if not response.content.startswith('Result'):
             if not self.fail_silently:
-                raise
+                raise Exception('Bad result')
             else: 
                 return False
 
         response = self._parse_response(response.content)
+        
         if ESENDEX_SANDBOX and response['Result'] == 'Test':
             return True
         else:
-            if response['Result'] == 'OK':
+            if response['Result'].startswith('OK'):
                 return True
             else:
                 if not self.fail_silently:
-                    raise
+                    raise Exception('Bad result')
         
         return False
 
