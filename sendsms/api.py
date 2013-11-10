@@ -38,7 +38,7 @@ def send_mass_sms(datatuple, fail_silently=False,
         fail_silently = fail_silently
     )
     messages = [SmsMessage(message=message, from_phone=from_phone, to=to, flash=flash)
-                for message, from_phonenumber, to, flash in datatuple]
+                for message, from_phone, to, flash in datatuple]
     connection.send_messages(messages)
 
 
