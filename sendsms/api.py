@@ -1,7 +1,12 @@
 #-*- coding: utf-8 -*-
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from django.utils.importlib import import_module
+
+try:
+    from importlib import import_module
+except ImportError:
+    from django.utils.importlib import import_module
+
 from sendsms.utils import load_object
 
 
