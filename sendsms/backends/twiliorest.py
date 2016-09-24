@@ -15,7 +15,7 @@ class SmsBackend(BaseSmsBackend):
         for message in messages:
             for to in message.to:
                 try:
-                    msg = client.sms.messages.create(
+                    msg = client.messages.create(
                         to=to,
                         from_=message.from_phone,
                         body=message.body
