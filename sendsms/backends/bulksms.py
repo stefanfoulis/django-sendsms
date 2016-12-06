@@ -30,28 +30,29 @@ class SmsBackend(BaseSmsBackend):
     """
     def send_messages(self, messages):
         for message in messages:
-            for to in message.to:
-                payload = {
-                    'username': BULKSMS_USERNAME,
-                    'password': BULKSMS_PASSWORD,
-                    'message': message.body,
-                    'msisdn': to  # without 00 or +
-                }
+            to = ', '.join(message.to)
+            payload = {
+                'username': BULKSMS_USERNAME,
+                'password': BULKSMS_PASSWORD,
+                'message': message.body,
+                'msisdn': to  # without 00 or +
+            }
 
-                response = requests.post(BULKSMS_API_URL, payload)
+            response = requests.post(BULKSMS_API_URL, payload)
 
-                # response.status_code will always be 200 even with an error.
-                result = response.text.split('|')
-                status_code = result[0]
-                status_msg = result[1]
-                if status_code != '0':
-                    if not self.fail_silently:
-                        raise Exception(
-                            "Error: " + status_code + ": " + status_msg)
-                    else:
-                        return False
+            # response.status_code will always be 200 even with an error.
+            result = response.text.split('|')
+            status_code = result[0]
+            status_msg = result[1]
+            if status_code != '0':
+                if not self.fail_silently:
+                    raise Exception(
+                        "Error: " + status_code + ": " + status_msg)
                 else:
-                    print("Message sent: batch ID " + result[2])
-                    return True
+                    return False
+            else:
+                print("Message sent: batch ID " + result[2])
+
+        return True
 
 
