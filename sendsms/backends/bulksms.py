@@ -28,13 +28,31 @@ class SmsBackend(BaseSmsBackend):
         api.send_sms(body='I can haz txt', from_phone='+41791111111', to=['+41791234567'])
 
     """
+
+    def string_to_hex(self, body):
+        # Based on http://developer.bulksms.com/eapi/code-samples/java/unicode/
+        # and http://developer.bulksms.com/eapi/submission/faq/
+        body = body.decode('utf-8')
+        chars = list(body)
+        output = ''
+
+        for i in range(len(chars)):
+            _next = hex(ord(body[i])).replace('0x', '')
+            # Unfortunately, hex doesn't pad with zeroes, so we have to.
+            for j in range(4 - len(_next)):
+                output += '0'
+            output += _next
+
+        return output
+
     def send_messages(self, messages):
         for message in messages:
             to = ', '.join(message.to)
             payload = {
                 'username': BULKSMS_USERNAME,
                 'password': BULKSMS_PASSWORD,
-                'message': message.body,
+                'message': self.string_to_hex(message.body),
+                'dca': '16bit',
                 'msisdn': to  # without 00 or +
             }
 
