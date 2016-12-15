@@ -9,6 +9,8 @@ from sendsms.backends.base import BaseSmsBackend
 BULKSMS_API_URL = 'https://bulksms.vsms.net/eapi/submission/send_sms/2/2.0'
 BULKSMS_USERNAME = getattr(settings, 'SENDSMS_BULKSMS_USERNAME', '')
 BULKSMS_PASSWORD = getattr(settings, 'SENDSMS_BULKSMS_PASSWORD', '')
+BULKSMS_ENABLE_UNICODE = getattr(
+    settings, 'SENDSMS_BULKSMS_ENABLE_UNICODE', False)
 
 
 class SmsBackend(BaseSmsBackend):
@@ -25,7 +27,9 @@ class SmsBackend(BaseSmsBackend):
 
     Usage::
         from sendsms import api
-        api.send_sms(body='I can haz txt', from_phone='+41791111111', to=['+41791234567'])
+        api.send_sms(
+            body='I can haz txt', from_phone='+41791111111', to=['+41791234567']
+        )
 
     """
 
@@ -51,10 +55,12 @@ class SmsBackend(BaseSmsBackend):
             payload = {
                 'username': BULKSMS_USERNAME,
                 'password': BULKSMS_PASSWORD,
-                'message': self.string_to_hex(message.body),
-                'dca': '16bit',
+                'message': message.body,
                 'msisdn': to  # without 00 or +
             }
+            if BULKSMS_ENABLE_UNICODE:
+                payload['dca'] = '16bit'
+                payload['message'] = self.string_to_hex(message.body)
 
             response = requests.post(BULKSMS_API_URL, payload)
 
