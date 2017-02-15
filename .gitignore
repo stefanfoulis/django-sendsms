@@ -2,3 +2,5 @@ docs/_build
 *.pyc
 *.swp
 /.idea
+.ropeproject/
+*.egg-info
