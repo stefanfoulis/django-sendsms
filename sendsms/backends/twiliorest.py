@@ -26,6 +26,6 @@ class SmsBackend(BaseSmsBackend):
                         from_=message.from_phone,
                         body=message.body
                     )
-                except Exception as e:
+                except:
                     if not self.fail_silently:
-                        raise Exception("Error: " + str(e))
+                        raise
