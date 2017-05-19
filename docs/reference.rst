@@ -23,6 +23,6 @@ Available backends:
    backend_twiliorest.rst
    backend_smspubli.rst
    backend_esendex.rst
-
+   backend_thaibulksms.rst
 
 
