@@ -26,7 +26,6 @@ Usage::
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from django.utils.encoding import force_unicode
 
 import requests
 
@@ -99,14 +98,15 @@ class SmsBackend(BaseSmsBackend):
                 raise Exception('Bad status code')
             else:
                 return False
-        
-        if not response.content.startswith('Result'):
+            
+        content = response.content.decode('utf-8')
+        if not content.startswith('Result'):
             if not self.fail_silently:
                 raise Exception('Bad result')
             else: 
                 return False
 
-        response = self._parse_response(response.content)
+        response = self._parse_response(content)
         
         if ESENDEX_SANDBOX and response['Result'] == 'Test':
             return True
