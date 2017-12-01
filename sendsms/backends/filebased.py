@@ -29,7 +29,7 @@ class SmsBackend(ConsoleSmsBackend):
         elif not os.path.exists(self.file_path):
             try:
                 os.makedirs(self.file_path)
-            except OSError, err:
+            except (OSError, err):
                 raise ImproperlyConfigured('Could not create directory for saving SMS messages: %s (%s)' % (self.file_path, err))
             # Make sure that self.file_path is writable.
         if not os.access(self.file_path, os.W_OK):
