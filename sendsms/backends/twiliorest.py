@@ -3,10 +3,13 @@
 """
 this backend requires the twilio python library: http://pypi.python.org/pypi/twilio/
 """
-try:
-    from twilio.rest import TwilioRestClient
-except ImportError:
+import twilio
+if twilio.__version__ > 5:
+    TWILIO_5 = False
     from twilio.rest import Client as TwilioRestClient
+else:
+    TWILIO_5 = True
+    from twilio.rest import TwilioRestClient
 
 from django.conf import settings
 from sendsms.backends.base import BaseSmsBackend
@@ -21,11 +24,18 @@ class SmsBackend(BaseSmsBackend):
         for message in messages:
             for to in message.to:
                 try:
-                    client.messages.create(
-                        to=to,
-                        from_=message.from_phone,
-                        body=message.body
-                    )
+                    if TWILIO_5:
+                        client.sms.messages.create(
+                            body=message.body,
+                            to=to,
+                            from_=message.from_phone,
+                        )
+                    else:
+                        client.messages.create(
+                            to=to,
+                            from_=message.from_phone,
+                            body=message.body
+                        )
                 except:
                     if not self.fail_silently:
                         raise
