@@ -100,5 +100,53 @@ class RQBackendTest(SimpleTestCase):
                 backend.send_messages.assert_called_once_with([message])
 
 
+class CeleryBackendTest(SimpleTestCase):
+
+    @mock.patch('sendsms.backends.celery.send_messages')
+    def test_should_queue_sms(self, send_messages_mock):
+        from sendsms.message import SmsMessage
+
+        with self.settings(SENDSMS_BACKEND='sendsms.backends.celery.SmsBackend'):
+                message = SmsMessage(
+                    body='Hello!',
+                    from_phone='29290',
+                    to=['+639123456789']
+                )
+                message.send()
+
+        send_messages_mock.delay.assert_called_with([message])
+
+    @mock.patch('sendsms.backends.twiliorest.SmsBackend')
+    @mock.patch('sendsms.backends.locmem.SmsBackend')
+    def test_send_message_should_use_configured_backend(self, LocmemBackend,
+                                                        TwilioBackend):
+        from sendsms.message import SmsMessage
+
+        with self.settings(SENDSMS_BACKEND='sendsms.backends.celery.SmsBackend'):
+            with self.settings(CELERY_SENDSMS_BACKEND='sendsms.backends.twiliorest.SmsBackend'):  # noqa
+                from sendsms.backends import celery
+
+                backend = TwilioBackend()
+                message = SmsMessage(
+                    body='Hello!',
+                    from_phone='29290',
+                    to=['+639123456789']
+                )
+                celery.send_messages([message])
+                backend.send_messages.assert_called_once_with([message])
+
+            with self.settings(CELERY_SENDSMS_BACKEND='sendsms.backends.locmem.SmsBackend'):  # noqa
+                reload(celery)
+
+                backend = LocmemBackend()
+                message = SmsMessage(
+                    body='Hello!',
+                    from_phone='29290',
+                    to=['+639123456789']
+                )
+                celery.send_messages([message])
+                backend.send_messages.assert_called_once_with([message])
+
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
