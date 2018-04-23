@@ -4,3 +4,8 @@ docs/_build
 /.idea
 .ropeproject/
 *.egg-info
+.tox
+.eggs
+.coverage
+Pipfile
+Pipfile.lock
