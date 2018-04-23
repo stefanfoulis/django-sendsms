@@ -2,6 +2,11 @@
 django-sendsms
 ==============
 
+.. image:: https://coveralls.io/repos/github/stefanfoulis/django-sendsms/badge.svg?branch=master
+    :target: https://coveralls.io/github/stefanfoulis/django-sendsms?branch=master
+
+.. image:: https://travis-ci.org/stefanfoulis/django-sendsms.svg?branch=master
+    :target: https://travis-ci.org/stefanfoulis/django-sendsms
 
 A simple api to send SMS messages with django. The api is structured the same way as djangos own email api.
 
