@@ -11,9 +11,9 @@ setup(
     description="A simple API to send SMS messages.",
     long_description=open('README.rst').read(),
     author='Stefan Foulis',
-    author_email='stefan.foulis@gmail.com',
+    author_email='stefan@foulis.ch',
     maintainer='Stefan Foulis',
-    maintainer_email='stefan.foulis@gmail.com',
+    maintainer_email='stefan@foulis.ch',
     packages=find_packages(),
     include_package_data=True,
     extras_require={
