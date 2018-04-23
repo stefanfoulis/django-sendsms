@@ -16,11 +16,21 @@ setup(
     maintainer_email='stefan.foulis@gmail.com',
     packages=find_packages(),
     include_package_data=True,
-    extras_require = {
-      'esendex': ['requests'],
-      'twilio': ['twilio'],
-      'smssluzbacz': ['smssluzbacz-api']
+    extras_require={
+        'celery': ['celery'],
+        'esendex': ['requests'],
+        'twilio': ['twilio'],
+        'smssluzbacz': ['smssluzbacz-api'],
+        'rq': ['django_rq'],
     },
+    tests_require=[
+        'mock',
+        'django',
+        'requests',
+        'django_rq',
+        'twilio',
+        'celery',
+    ],
     zip_safe=False,
     classifiers=[
         'Development Status :: 3 - Alpha',

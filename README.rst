@@ -57,3 +57,8 @@ Creating custom ``SmsBackend`` s::
 
 Then all you need to do is reference your backend in the ``SENDSMS_BACKEND`` setting.
 
+
+Running tests
+===============
+
+python setup.py test
