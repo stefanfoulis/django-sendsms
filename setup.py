@@ -23,6 +23,7 @@ setup(
         'smssluzbacz': ['smssluzbacz-api'],
         'rq': ['django_rq'],
     },
+    test_suite="test",
     tests_require=[
         'mock',
         'django',

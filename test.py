@@ -29,7 +29,9 @@ if not settings.configured:
                 'URL': 'redis://localhost',
                 'DEFAULT_TIMEOUT': 500,
             }
-        }
+        },
+        RQ_SENDSMS_BACKEND='sendsms.backends.locmem.SmsBackend',
+        CELERY_SENDSMS_BACKEND='sendsms.backends.locmem.SmsBackend',
     )
 
 
