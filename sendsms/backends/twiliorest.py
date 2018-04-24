@@ -4,7 +4,7 @@
 this backend requires the twilio python library: http://pypi.python.org/pypi/twilio/
 """
 import twilio
-if twilio.__version__ > 5:
+if int(twilio.__version_info__[0]) > 5:
     TWILIO_5 = False
     from twilio.rest import Client as TwilioRestClient
 else:
