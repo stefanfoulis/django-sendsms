@@ -73,7 +73,7 @@ class SmsBackend(BaseSmsBackend):
 
     def _send(self, message):
         """
-        Private method for send one message.
+        Private method to send one message.
 
         :param SmsMessage message: SmsMessage class instance.
         :returns: True if message is sent else False
@@ -122,8 +122,8 @@ class SmsBackend(BaseSmsBackend):
         """
         Send messages.
 
-        :param list messages: List of SmsMessage instences.
-        :returns: number of messages seded succesful.
+        :param list messages: List of SmsMessage instances.
+        :returns: number of messages sended successful.
         :rtype: int
         """
         counter = 0
