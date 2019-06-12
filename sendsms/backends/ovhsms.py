@@ -1,26 +1,35 @@
-
 try:
     from urllib.parse import urlencode
 except ImportError:
     from urllib import urlencode  # Python2
+import json
+import logging
+
+import requests
+from django.conf import settings
 
 from sendsms.backends.base import BaseSmsBackend
 
-from django.conf import settings
-import requests
-import json
+logger = logging.getLogger(__name__)
 
 
 class OvhSmsBackend(BaseSmsBackend):
-
     @staticmethod
     def _call_url(url):
         res = requests.get(url)
         res.raise_for_status()
-        return json.loads(res.text)
+        data = json.loads(res.text)
+        if data.get("status") == 100:
+            logger.info("OVH SMS successfully sent: %s", repr(data))
+        else:
+            raise RuntimeError(
+                "OVH SMS sending returned error structure: %s" % repr(data)
+            )
+        return data
 
     @classmethod
-    def _send_via_ovh(cls,
+    def _send_via_ovh(
+        cls,
         message,
         to_phone,  # must be "00336xxxx"-like international format
         from_phone=None,
@@ -54,7 +63,7 @@ class OvhSmsBackend(BaseSmsBackend):
             "contentType": "text/json",
             "noStop": ("1" if OVH_API_NO_STOP else "0"),  # we don't send commercial SMS
             "message": message,
-            "to": to_phone
+            "to": to_phone,
         }
 
         if tag:
@@ -67,17 +76,22 @@ class OvhSmsBackend(BaseSmsBackend):
 
         return cls._call_url(full_url)
 
-
     def send_messages(self, messages):
+        results = []
         for message in messages:
-            for to_phone in message.to:
+            for (
+                to_phone
+            ) in message.to:  # For now we separate recipients in different SMS
                 try:
-                    self._send_via_ovh(
+                    res = self._send_via_ovh(
                         message=message.body,
                         to_phone=to_phone,
                         from_phone=message.from_phone,
-                        flashing=message.flash
+                        flashing=message.flash,
                     )
+                    results.append(res)
                 except:
+                    logger.error("OVH SMS sending failed", exc_info=True)
                     if not self.fail_silently:
                         raise
+        return results

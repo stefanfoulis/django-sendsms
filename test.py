@@ -152,7 +152,7 @@ class CeleryBackendTest(SimpleTestCase):
 
 class OvhBackendTest(SimpleTestCase):
 
-    @mock.patch('sendsms.backends.ovhsms.OvhSmsBackend._call_url')
+    @mock.patch('sendsms.backends.ovhsms.OvhSmsBackend._call_url', return_value={"result": "42"})
     def test_should_call_proper_url(self, _call_url_mock):
         from sendsms.message import SmsMessage
 
@@ -169,7 +169,8 @@ class OvhBackendTest(SimpleTestCase):
                     body='Hello!',
                     from_phone='29290',  # overrides OVH_API_FROM
                     to=['+639123456789'])
-            message.send()
+            res = message.send()
+            self.assertEqual(res, [{'result': '42'}])
 
         expected = ("http://fakeurl/?account=myaccount&class=1&contentType=text%2Fjson&from=29290&login=mylogin&"
                     "message=Hello%21&noStop=0&password=mypwd&smsCoding=2&to=%2B639123456789",)
@@ -187,13 +188,29 @@ class OvhBackendTest(SimpleTestCase):
                     body='Wêlcome à vous\nHenrï & Jack!\r\n',
                     from_phone='thierry',  # overrides OVH_API_FROM
                     to=['0699'])
-            message.send()
+            res = message.send()
+            self.assertEqual(res, [{'result': '42'}])
 
             expected = ("https://www.ovh.com/cgi-bin/sms/http2sms.cgi?account=myaccount&class=1&contentType=text%2Fjson&" 
                         "from=thierry&login=mylogin&message=W%C3%AAlcome+%C3%A0+vous%0DHenr%C3%AF+%26+Jack%21%0D&" 
                         "noStop=1&password=mypwd&smsCoding=2&to=0699",)
             self.assertEqual(_call_url_mock.call_args, (expected,))
 
+    def test_should_properly_handle_errors(self):
+        with self.settings(
+                SENDSMS_BACKEND='sendsms.backends.ovhsms.OvhSmsBackend',
+                OVH_API_ACCOUNT="myaccount",
+                OVH_API_LOGIN="mylogin",
+                OVH_API_PASSWORD="mypwd",
+                OVH_API_FROM="mysender"):
+
+            from sendsms.api import send_sms
+
+            with self.assertRaisesRegex(RuntimeError, "Invalid smsAccount"):
+                send_sms(body='I can hàz txt', from_phone=None, to=['+33632020000'])
+
+            res = send_sms(body='I can hàz txt', from_phone=None, to=['+33632020000'], fail_silently=True)
+            self.assertEqual(res, [])
 
 if __name__ == '__main__':
-    unittest.main(verbosity=2)
+    unittest.main(verbosity=2, buffer=True)
