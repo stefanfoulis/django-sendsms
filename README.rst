@@ -11,7 +11,7 @@ django-sendsms
 .. image:: https://badge.fury.io/py/django-sendsms.svg
     :target: https://badge.fury.io/py/django-sendsms
 
-A simple api to send SMS messages with django. The api is structured the same way as djangos own email api.
+A simple api to send SMS messages with django. The api is structured the same way as Django's own email api.
 
 Installation
 ============
@@ -33,7 +33,7 @@ Sending SMSs is like sending emails::
     from sendsms import api
     api.send_sms(body='I can haz txt', from_phone='+41791111111', to=['+41791234567'])
 
-you can also make instances of ``SmsMessage``::
+You can also make instances of ``SmsMessage``::
 
     from sendsms.message import SmsMessage
     message = SmsMessage(body='lolcats make me hungry', from_phone='+41791111111', to=['+41791234567'])
@@ -69,4 +69,8 @@ Then all you need to do is reference your backend in the ``SENDSMS_BACKEND`` set
 Running tests
 ===============
 
-python setup.py test
+::
+
+    python setup.py test
+
+Or better, install and run "tox".

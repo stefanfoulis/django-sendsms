@@ -8,3 +8,4 @@ Mitchel Cabuloy [mixxorz] https://github.com/mixxorz
 Reid Ransom [reidransom] https://github.com/reidransom
 Francesc Sastre Cabot [xiscosc] https://github.com/xiscosc
 K Wong [kelvinwong-ca] https://github.com/kelvinwong-ca
+Pascal Chambon [pakal] https://github.com/pakal/
