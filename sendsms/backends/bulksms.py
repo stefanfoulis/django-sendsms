@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 import requests
 
@@ -6,11 +6,10 @@ from django.conf import settings
 from sendsms.backends.base import BaseSmsBackend
 
 
-BULKSMS_API_URL = 'https://bulksms.vsms.net/eapi/submission/send_sms/2/2.0'
-BULKSMS_USERNAME = getattr(settings, 'SENDSMS_BULKSMS_USERNAME', '')
-BULKSMS_PASSWORD = getattr(settings, 'SENDSMS_BULKSMS_PASSWORD', '')
-BULKSMS_ENABLE_UNICODE = getattr(
-    settings, 'SENDSMS_BULKSMS_ENABLE_UNICODE', False)
+BULKSMS_API_URL = "https://bulksms.vsms.net/eapi/submission/send_sms/2/2.0"
+BULKSMS_USERNAME = getattr(settings, "SENDSMS_BULKSMS_USERNAME", "")
+BULKSMS_PASSWORD = getattr(settings, "SENDSMS_BULKSMS_PASSWORD", "")
+BULKSMS_ENABLE_UNICODE = getattr(settings, "SENDSMS_BULKSMS_ENABLE_UNICODE", False)
 
 
 class SmsBackend(BaseSmsBackend):
@@ -36,47 +35,44 @@ class SmsBackend(BaseSmsBackend):
     def string_to_hex(self, body):
         # Based on http://developer.bulksms.com/eapi/code-samples/java/unicode/
         # and http://developer.bulksms.com/eapi/submission/faq/
-        body = body.decode('utf-8')
+        body = body.decode("utf-8")
         chars = list(body)
-        output = ''
+        output = ""
 
         for i in range(len(chars)):
-            _next = hex(ord(body[i])).replace('0x', '')
+            _next = hex(ord(body[i])).replace("0x", "")
             # Unfortunately, hex doesn't pad with zeroes, so we have to.
             for j in range(4 - len(_next)):
-                output += '0'
+                output += "0"
             output += _next
 
         return output
 
     def send_messages(self, messages):
         for message in messages:
-            to = ', '.join(message.to)
+            to = ", ".join(message.to)
             payload = {
-                'username': BULKSMS_USERNAME,
-                'password': BULKSMS_PASSWORD,
-                'message': message.body,
-                'msisdn': to  # without 00 or +
+                "username": BULKSMS_USERNAME,
+                "password": BULKSMS_PASSWORD,
+                "message": message.body,
+                "msisdn": to,  # without 00 or +
             }
             if BULKSMS_ENABLE_UNICODE:
-                payload['dca'] = '16bit'
-                payload['message'] = self.string_to_hex(message.body)
+                payload["dca"] = "16bit"
+                payload["message"] = self.string_to_hex(message.body)
 
             response = requests.post(BULKSMS_API_URL, payload)
 
             # response.status_code will always be 200 even with an error.
-            result = response.text.split('|')
+            result = response.text.split("|")
             status_code = result[0]
             status_msg = result[1]
-            if status_code != '0':
+            if status_code != "0":
                 if not self.fail_silently:
-                    raise Exception(
-                        "Error: " + status_code + ": " + status_msg)
+                    raise Exception("Error: " + status_code + ": " + status_msg)
                 else:
                     return False
             else:
                 print("Message sent: batch ID " + result[2])
 
         return True
-
-
