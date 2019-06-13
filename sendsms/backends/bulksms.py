@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import requests
-
 from django.conf import settings
-from sendsms.backends.base import BaseSmsBackend
 
+from sendsms.backends.base import BaseSmsBackend
 
 BULKSMS_API_URL = "https://bulksms.vsms.net/eapi/submission/send_sms/2/2.0"
 BULKSMS_USERNAME = getattr(settings, "SENDSMS_BULKSMS_USERNAME", "")

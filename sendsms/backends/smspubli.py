@@ -25,9 +25,8 @@ Usage::
     message.send()
 """
 
-import requests, logging
+import requests
 from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
 
 from .base import BaseSmsBackend
 

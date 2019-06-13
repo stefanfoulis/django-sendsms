@@ -16,12 +16,12 @@ In settings.py
 
 
 """
-from sendsms.api import get_connection
-from sendsms.backends.base import BaseSmsBackend
-
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django_rq import job
+
+from sendsms.api import get_connection
+from sendsms.backends.base import BaseSmsBackend
 
 RQ_SENDSMS_BACKEND = getattr(settings, "RQ_SENDSMS_BACKEND", None)
 

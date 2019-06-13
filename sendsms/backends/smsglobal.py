@@ -1,12 +1,13 @@
 """SMS Global sms backend class."""
-from django.conf import settings
-import urllib2
-import urllib
-import re
 import logging
+import re
+import urllib
+
 import math
+import urllib2
+from django.conf import settings
+
 from .base import BaseSmsBackend
-from decimal import Decimal
 
 logger = logging.getLogger(__name__)
 

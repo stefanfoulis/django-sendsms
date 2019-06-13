@@ -20,12 +20,12 @@ In settings.py
 """
 from __future__ import absolute_import
 
-from sendsms.api import get_connection
-from sendsms.backends.base import BaseSmsBackend
-
+from celery import shared_task
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from celery import shared_task
+
+from sendsms.api import get_connection
+from sendsms.backends.base import BaseSmsBackend
 
 CELERY_SENDSMS_BACKEND = getattr(settings, "CELERY_SENDSMS_BACKEND", None)
 

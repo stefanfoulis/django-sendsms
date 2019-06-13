@@ -8,7 +8,6 @@ try:
 except ImportError:
     # Django versions < 1.9
     from django.utils.importlib import import_module
-from sendsms.utils import load_object
 
 
 def send_sms(
