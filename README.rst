@@ -46,7 +46,7 @@ Custom backends
 Creating custom ``SmsBackend`` s::
 
     from sendsms.backends.base import BaseSmsBackend
-    from some.sms.delivery.api
+    import some.sms.delivery.api
 
     class AwesomeSmsBackend(BaseSmsBackend):
         def send_messages(self, messages):
