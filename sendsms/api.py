@@ -2,8 +2,6 @@
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
-from sendsms.utils import load_object
-
 try:
     # Django versions >= 1.9
     from django.utils.module_loading import import_module

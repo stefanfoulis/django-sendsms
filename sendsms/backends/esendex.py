@@ -25,7 +25,6 @@ Usage::
 """
 
 from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
 
 import requests
 
@@ -39,11 +38,11 @@ ESENDEX_SANDBOX = getattr(settings, "ESENDEX_SANDBOX", False)
 
 
 class SmsBackend(BaseSmsBackend):
-    """ 
+    """
     SMS Backend for esendex.es provider.
 
-    The methods "get_xxxxxx" serve to facilitate the inheritance. Thus if a private 
-    project in the access data are dynamic, and are stored in the database. A child 
+    The methods "get_xxxxxx" serve to facilitate the inheritance. Thus if a private
+    project in the access data are dynamic, and are stored in the database. A child
     class overrides the method "get_xxxx" to return data stored in the database.
     """
 

@@ -4,7 +4,6 @@ import math
 import re
 import urllib
 import urllib2
-from decimal import Decimal
 
 from django.conf import settings
 

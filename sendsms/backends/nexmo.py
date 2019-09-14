@@ -7,11 +7,9 @@ Author: Alican Toprak (a.toprak@northernbitcoin.com)
 ~~~~~~~~~~~~~~~~~~~~~~
 """
 
-import base64
 import logging
 
 from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
 
 import requests
 
