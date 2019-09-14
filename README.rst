@@ -67,10 +67,19 @@ Then all you need to do is reference your backend in the ``SENDSMS_BACKEND`` set
 
 
 Running tests
-===============
+=============
 
 ::
 
     python setup.py test
 
 Or better, install and run "tox".
+
+
+Contributing
+============
+
+
+Pull requests are very welcome. Please make sure code is formatted using black and isort.
+
+
