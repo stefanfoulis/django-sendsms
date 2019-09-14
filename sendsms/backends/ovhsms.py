@@ -5,8 +5,9 @@ except ImportError:
 import json
 import logging
 
-import requests
 from django.conf import settings
+
+import requests
 
 from sendsms.backends.base import BaseSmsBackend
 

@@ -20,17 +20,18 @@ In settings.py
 """
 from __future__ import absolute_import
 
+from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
+
+from celery import shared_task
+
 from sendsms.api import get_connection
 from sendsms.backends.base import BaseSmsBackend
 
-from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
-from celery import shared_task
-
-CELERY_SENDSMS_BACKEND = getattr(settings, 'CELERY_SENDSMS_BACKEND', None)
+CELERY_SENDSMS_BACKEND = getattr(settings, "CELERY_SENDSMS_BACKEND", None)
 
 if not CELERY_SENDSMS_BACKEND:
-    raise ImproperlyConfigured('Set CELERY_SENDSMS_BACKEND')
+    raise ImproperlyConfigured("Set CELERY_SENDSMS_BACKEND")
 
 
 @shared_task
@@ -40,6 +41,5 @@ def send_messages(messages):
 
 
 class SmsBackend(BaseSmsBackend):
-
     def send_messages(self, messages):
         send_messages.delay(messages)

@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 try:
     from importlib import import_module
 except ImportError:
@@ -22,11 +22,10 @@ def load_object(import_path):
 
     If the attribute does not exist in the module, a AttributeError is raised.
     """
-    if '.' not in import_path:
+    if "." not in import_path:
         raise TypeError(
-            "'import_path' argument to 'load_object' must "
-            "contain at least one dot."
+            "'import_path' argument to 'load_object' must " "contain at least one dot."
         )
-    module_name, object_name = import_path.rsplit('.', 1)
+    module_name, object_name = import_path.rsplit(".", 1)
     module = import_module(module_name)
     return getattr(module, object_name)
