@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
+from django.conf import settings
+
 import requests
 
-from django.conf import settings
 from sendsms.backends.base import BaseSmsBackend
 
-
-BULKSMS_API_URL = 'https://api.bulksms.com/v1/messages'
-BULKSMS_TOKEN_ID = getattr(settings, 'SENDSMS_BULKSMS_TOKEN_ID', "")
-BULKSMS_TOKEN_SECRET = getattr(settings, 'SENDSMS_BULKSMS_TOKEN_SECRET', "")
-BULKSMS_ENABLE_UNICODE = getattr(settings, 'SENDSMS_BULKSMS_ENABLE_UNICODE', True)
+BULKSMS_API_URL = "https://api.bulksms.com/v1/messages"
+BULKSMS_TOKEN_ID = getattr(settings, "SENDSMS_BULKSMS_TOKEN_ID", "")
+BULKSMS_TOKEN_SECRET = getattr(settings, "SENDSMS_BULKSMS_TOKEN_SECRET", "")
+BULKSMS_ENABLE_UNICODE = getattr(settings, "SENDSMS_BULKSMS_ENABLE_UNICODE", True)
 
 
 class SmsBackend(BaseSmsBackend):
@@ -35,9 +35,9 @@ class SmsBackend(BaseSmsBackend):
     def send_messages(self, messages):
         payload = []
         for m in messages:
-            entry = {'from': m.from_phone, 'to': m.to, 'body': m.body}
+            entry = {"from": m.from_phone, "to": m.to, "body": m.body}
             if BULKSMS_ENABLE_UNICODE:
-                entry['encoding'] = 'UNICODE'
+                entry["encoding"] = "UNICODE"
             payload.append(entry)
 
         response = requests.post(
@@ -48,8 +48,8 @@ class SmsBackend(BaseSmsBackend):
             if self.fail_silently:
                 return False
             raise Exception(
-                'Error: %d: %s'
-                % (response.status_code, response.content.decode('utf-8'))
+                "Error: %d: %s"
+                % (response.status_code, response.content.decode("utf-8"))
             )
 
         return True

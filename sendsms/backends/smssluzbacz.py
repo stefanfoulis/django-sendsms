@@ -28,11 +28,11 @@
 import logging
 import unicodedata
 
-from smssluzbacz_api.lite import SmsGateApi
 from django.conf import settings
 
-from sendsms.backends.base import BaseSmsBackend
+from smssluzbacz_api.lite import SmsGateApi
 
+from sendsms.backends.base import BaseSmsBackend
 
 log = logging.getLogger(__name__)
 
@@ -58,10 +58,12 @@ class SmsBackend(BaseSmsBackend):
 
     def open(self):
         """Initializes sms.sluzba.cz API library."""
-        self.client = SmsGateApi(getattr(settings, 'SMS_SLUZBA_API_LOGIN', ''),
-                                 getattr(settings, 'SMS_SLUZBA_API_PASSWORD', ''),
-                                 getattr(settings, 'SMS_SLUZBA_API_TIMEOUT', 2),
-                                 getattr(settings, 'SMS_SLUZBA_API_USE_SSL', True))
+        self.client = SmsGateApi(
+            getattr(settings, "SMS_SLUZBA_API_LOGIN", ""),
+            getattr(settings, "SMS_SLUZBA_API_PASSWORD", ""),
+            getattr(settings, "SMS_SLUZBA_API_TIMEOUT", 2),
+            getattr(settings, "SMS_SLUZBA_API_USE_SSL", True),
+        )
 
     def close(self):
         """Cleaning up the reference for sms.sluzba.cz API library."""
@@ -82,13 +84,21 @@ class SmsBackend(BaseSmsBackend):
         """
         count = 0
         for message in messages:
-            message_body = unicodedata.normalize('NFKD', unicode(message.body)).encode('ascii', 'ignore')
+            message_body = unicodedata.normalize("NFKD", unicode(message.body)).encode(
+                "ascii", "ignore"
+            )
             for tel_number in message.to:
                 try:
-                    self.client.send(tel_number, message_body, getattr(settings, 'SMS_SLUZBA_API_USE_POST', True))
+                    self.client.send(
+                        tel_number,
+                        message_body,
+                        getattr(settings, "SMS_SLUZBA_API_USE_POST", True),
+                    )
                 except Exception:
                     if self.fail_silently:
-                        log.exception('Error while sending sms via sms.sluzba.cz backend API.')
+                        log.exception(
+                            "Error while sending sms via sms.sluzba.cz backend API."
+                        )
                     else:
                         raise
                 else:

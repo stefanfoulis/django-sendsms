@@ -16,17 +16,18 @@ In settings.py
 
 
 """
+from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
+
+from django_rq import job
+
 from sendsms.api import get_connection
 from sendsms.backends.base import BaseSmsBackend
 
-from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
-from django_rq import job
-
-RQ_SENDSMS_BACKEND = getattr(settings, 'RQ_SENDSMS_BACKEND', None)
+RQ_SENDSMS_BACKEND = getattr(settings, "RQ_SENDSMS_BACKEND", None)
 
 if not RQ_SENDSMS_BACKEND:
-    raise ImproperlyConfigured('Set RQ_SENDSMS_BACKEND')
+    raise ImproperlyConfigured("Set RQ_SENDSMS_BACKEND")
 
 
 @job
@@ -36,6 +37,5 @@ def send_messages(messages):
 
 
 class SmsBackend(BaseSmsBackend):
-
     def send_messages(self, messages):
         send_messages.delay(messages)

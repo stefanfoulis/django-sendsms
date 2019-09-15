@@ -25,24 +25,24 @@ Usage::
 """
 
 from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
 
 import requests
 
 from .base import BaseSmsBackend
 
-ESENDEX_API_URL = 'https://www.esendex.com/secure/messenger/formpost/SendSMS.aspx'
-ESENDEX_USERNAME = getattr(settings, 'ESENDEX_USERNAME', '')
-ESENDEX_PASSWORD = getattr(settings, 'ESENDEX_PASSWORD', '')
-ESENDEX_ACCOUNT = getattr(settings, 'ESENDEX_ACCOUNT', '')
-ESENDEX_SANDBOX = getattr(settings, 'ESENDEX_SANDBOX', False)
+ESENDEX_API_URL = "https://www.esendex.com/secure/messenger/formpost/SendSMS.aspx"
+ESENDEX_USERNAME = getattr(settings, "ESENDEX_USERNAME", "")
+ESENDEX_PASSWORD = getattr(settings, "ESENDEX_PASSWORD", "")
+ESENDEX_ACCOUNT = getattr(settings, "ESENDEX_ACCOUNT", "")
+ESENDEX_SANDBOX = getattr(settings, "ESENDEX_SANDBOX", False)
+
 
 class SmsBackend(BaseSmsBackend):
-    """ 
+    """
     SMS Backend for esendex.es provider.
 
-    The methods "get_xxxxxx" serve to facilitate the inheritance. Thus if a private 
-    project in the access data are dynamic, and are stored in the database. A child 
+    The methods "get_xxxxxx" serve to facilitate the inheritance. Thus if a private
+    project in the access data are dynamic, and are stored in the database. A child
     class overrides the method "get_xxxx" to return data stored in the database.
     """
 
@@ -81,41 +81,41 @@ class SmsBackend(BaseSmsBackend):
         """
 
         params = {
-            'EsendexUsername': self.get_username(),
-            'EsendexPassword': self.get_password(),
-            'EsendexAccount': self.get_account(), 
-            'EsendexOriginator': message.from_phone, 
-            'EsendexRecipient': ",".join(message.to),
-            'EsendexBody': message.body,
-            'EsendexPlainText':'1'
+            "EsendexUsername": self.get_username(),
+            "EsendexPassword": self.get_password(),
+            "EsendexAccount": self.get_account(),
+            "EsendexOriginator": message.from_phone,
+            "EsendexRecipient": ",".join(message.to),
+            "EsendexBody": message.body,
+            "EsendexPlainText": "1",
         }
         if ESENDEX_SANDBOX:
-            params['EsendexTest'] = '1'
+            params["EsendexTest"] = "1"
 
         response = requests.post(ESENDEX_API_URL, params)
         if response.status_code != 200:
             if not self.fail_silently:
-                raise Exception('Bad status code')
+                raise Exception("Bad status code")
             else:
                 return False
-        
-        if not response.content.startswith(b'Result'):
+
+        if not response.content.startswith(b"Result"):
             if not self.fail_silently:
-                raise Exception('Bad result')
-            else: 
+                raise Exception("Bad result")
+            else:
                 return False
 
-        response = self._parse_response(response.content.decode('utf8'))
-        
-        if ESENDEX_SANDBOX and response['Result'] == 'Test':
+        response = self._parse_response(response.content.decode("utf8"))
+
+        if ESENDEX_SANDBOX and response["Result"] == "Test":
             return True
         else:
-            if response['Result'].startswith('OK'):
+            if response["Result"].startswith("OK"):
                 return True
             else:
                 if not self.fail_silently:
-                    raise Exception('Bad result')
-        
+                    raise Exception("Bad result")
+
         return False
 
     def send_messages(self, messages):
