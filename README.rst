@@ -5,8 +5,8 @@ django-sendsms
 .. image:: https://coveralls.io/repos/github/stefanfoulis/django-sendsms/badge.svg?branch=master
     :target: https://coveralls.io/github/stefanfoulis/django-sendsms?branch=master
 
-.. image:: https://travis-ci.org/stefanfoulis/django-sendsms.svg?branch=master
-    :target: https://travis-ci.org/stefanfoulis/django-sendsms
+.. image:: https://github.com/stefanfoulis/django-sendsms/workflows/Django%20Send%20SMS%20Build/badge.svg?branch=master
+    :target: https://github.com/stefanfoulis/django-sendsms/actions?query=workflow%3A%22Django%20Send%20SMS%20Build%22
 
 .. image:: https://badge.fury.io/py/django-sendsms.svg
     :target: https://badge.fury.io/py/django-sendsms

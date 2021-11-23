@@ -91,7 +91,7 @@ class OvhSmsBackend(BaseSmsBackend):
                         flashing=message.flash,
                     )
                     results.append(res)
-                except:
+                except RuntimeError:
                     logger.error("OVH SMS sending failed", exc_info=True)
                     if not self.fail_silently:
                         raise

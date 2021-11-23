@@ -59,7 +59,7 @@ class SmsBackend(BaseSmsBackend):
         """
         Parse http raw respone into python
         dictionary object.
-        
+
         :param str response: http response
         :returns: response dict
         :rtype: dict
