@@ -34,7 +34,7 @@ class SmsBackend(BaseSmsBackend):
                     self.stream.flush()  # flush after each message
                 if stream_created:
                     self.close()
-            except:
+            except Exception:
                 if not self.fail_silently:
                     raise
         finally:

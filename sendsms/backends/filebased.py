@@ -6,11 +6,15 @@ This is a total ripoff of django.core.mail.backends.filebased
 
 import datetime
 import os
+import sys
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
 from sendsms.backends.console import SmsBackend as ConsoleSmsBackend
+
+if sys.version_info[0] >= 3:
+    basestring = str
 
 
 class SmsBackend(ConsoleSmsBackend):
@@ -36,7 +40,8 @@ class SmsBackend(ConsoleSmsBackend):
         elif not os.path.exists(self.file_path):
             try:
                 os.makedirs(self.file_path)
-            except (OSError, err):
+            except OSError:
+                err = sys.exc_info()[2]
                 raise ImproperlyConfigured(
                     "Could not create directory for saving SMS messages: %s (%s)"
                     % (self.file_path, err)

@@ -26,6 +26,7 @@
 #    USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import logging
+import sys
 import unicodedata
 
 from django.conf import settings
@@ -35,6 +36,9 @@ from smssluzbacz_api.lite import SmsGateApi
 from sendsms.backends.base import BaseSmsBackend
 
 log = logging.getLogger(__name__)
+
+if sys.version_info[0] >= 3:
+    unicode = str
 
 
 class SmsBackend(BaseSmsBackend):

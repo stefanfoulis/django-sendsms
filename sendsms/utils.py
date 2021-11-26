@@ -8,7 +8,7 @@ except ImportError:
 def load_object(import_path):
     """
     Shamelessly stolen from https://github.com/ojii/django-load
-    
+
     Loads an object from an 'import_path', like in MIDDLEWARE_CLASSES and the
     likes.
 

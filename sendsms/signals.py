@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
-import django.dispatch
+from django.dispatch import Signal
 
-sms_post_send = django.dispatch.Signal(providing_args=["from_phone", "to", "body"])
+sms_post_send = Signal()  # providing_args=["from_phone", "to", "body"]

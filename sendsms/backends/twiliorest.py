@@ -35,6 +35,6 @@ class SmsBackend(BaseSmsBackend):
                         client.messages.create(
                             to=to, from_=message.from_phone, body=message.body
                         )
-                except:
+                except Exception:
                     if not self.fail_silently:
                         raise

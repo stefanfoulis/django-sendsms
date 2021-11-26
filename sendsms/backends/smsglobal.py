@@ -3,9 +3,10 @@ import logging
 import math
 import re
 import urllib
-import urllib2
 
 from django.conf import settings
+
+import urllib2
 
 from .base import BaseSmsBackend
 
@@ -23,7 +24,7 @@ SMSGLOBAL_API_URL_CHECKBALANCE = "https://www.smsglobal.com/credit-api.php"
 class SmsBackend(BaseSmsBackend):
     """
     A wrapper that manages the SMS Global network connection.
-    
+
     Sending and parsing functionality borrowed from http://namingcrisis.net/code
     """
 
