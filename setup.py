@@ -10,6 +10,7 @@ setup(
     platforms=["OS Independent"],
     description="A simple API to send SMS messages.",
     long_description=open("README.rst").read(),
+    long_description_content_type="text/x-rst",
     author="Stefan Foulis",
     author_email="stefan@foulis.ch",
     maintainer="Stefan Foulis",
