@@ -10,3 +10,4 @@ docs/_build
 Pipfile
 Pipfile.lock
 lcov.info
+.vscode
