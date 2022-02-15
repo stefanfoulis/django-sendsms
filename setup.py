@@ -25,9 +25,10 @@ setup(
         "rq": ["django_rq"],
         "smssluzbacz": ["smssluzbacz-api"],
         "twilio": ["twilio"],
+        "amazonsns": ["boto3"],
     },
     test_suite="test",
-    tests_require=["mock", "django", "requests", "django_rq", "twilio", "celery"],
+    tests_require=["mock", "django", "requests", "django_rq", "twilio", "celery", "boto3"],
     zip_safe=False,
     classifiers=[
         "Development Status :: 5 - Production/Stable",
