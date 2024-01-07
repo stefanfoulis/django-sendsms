@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 SmsPubli sms gateway backend. (http://www.smspubli.com)
 

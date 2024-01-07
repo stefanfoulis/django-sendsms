@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # django-sendsms documentation build configuration file, created by
 # sphinx-quickstart on Sun Aug 21 17:29:36 2011.
@@ -47,8 +46,8 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = u"django-sendsms"
-copyright = u"2011, Stefan Foulis"
+project = "django-sendsms"
+copyright = "2011, Stefan Foulis"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -188,8 +187,8 @@ latex_documents = [
     (
         "index",
         "django-sendsms.tex",
-        u"django-sendsms Documentation",
-        u"Stefan Foulis",
+        "django-sendsms Documentation",
+        "Stefan Foulis",
         "manual",
     )
 ]
@@ -223,5 +222,5 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ("index", "django-sendsms", u"django-sendsms Documentation", [u"Stefan Foulis"], 1)
+    ("index", "django-sendsms", "django-sendsms Documentation", ["Stefan Foulis"], 1)
 ]

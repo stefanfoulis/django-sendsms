@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
-
 """
 this backend requires the twilio python library: http://pypi.python.org/pypi/twilio/
 """
+
 from django.conf import settings
 
 import twilio

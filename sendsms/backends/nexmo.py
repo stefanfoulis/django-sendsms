@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 nexmo sms gateway backend. (https://www.nexmo.com/)
 

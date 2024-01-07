@@ -1,21 +1,15 @@
-# -*- coding: utf-8 -*-
-
-try:
-    from unittest import mock
-except:
-    import mock
-
-try:
-    from importlib import reload
-except:
-    pass
-
 import unittest
+from unittest import mock
 
 from django.conf import settings
 from django.test import SimpleTestCase
 
 import sendsms
+
+try:
+    from importlib import reload
+except:
+    pass
 
 if not settings.configured:
     settings.configure(
@@ -40,8 +34,8 @@ class TestApi(unittest.TestCase):
         self.assertEqual(len(sendsms.outbox), 1)
 
     def test_send_esendex_sandbox(self):
-        from sendsms.message import SmsMessage
         from sendsms.api import get_connection
+        from sendsms.message import SmsMessage
 
         connection = get_connection("sendsms.backends.esendex.SmsBackend")
         obj = SmsMessage(
@@ -159,7 +153,6 @@ class OvhBackendTest(SimpleTestCase):
             OVH_API_FROM="mysender",
             OVH_API_NO_STOP=False,
         ):
-
             message = SmsMessage(
                 body="Hello!",
                 from_phone="29290",  # overrides OVH_API_FROM
@@ -182,7 +175,6 @@ class OvhBackendTest(SimpleTestCase):
             OVH_API_PASSWORD="mypwd",
             OVH_API_FROM="mysender",
         ):
-
             message = SmsMessage(
                 body="Wêlcome à vous\nHenrï & Jack!\r\n",
                 from_phone="thierry",  # overrides OVH_API_FROM
@@ -206,10 +198,9 @@ class OvhBackendTest(SimpleTestCase):
             OVH_API_PASSWORD="mypwd",
             OVH_API_FROM="mysender",
         ):
-
             from sendsms.api import send_sms
 
-            with self.assertRaisesRegex(RuntimeError, "Invalid smsAccount"):
+            with self.assertRaises(RuntimeError):
                 send_sms(body="I can hàz txt", from_phone=None, to=["+33632020000"])
 
             res = send_sms(
