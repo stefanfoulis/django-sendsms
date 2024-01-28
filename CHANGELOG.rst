@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+Unreleased
+------------------
+
+* Add support for django 4.1, 4.2, and django 5.0
+* Add support for Python 3.10, 3.11, and 3.12
+* Remove support for django 2.2 and 3.0
+* Remove support for Python 3.6, 3.7
+
 0.5.0 (2021-12-27)
 ------------------
 

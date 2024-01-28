@@ -1,9 +1,6 @@
-try:
-    from urllib.parse import urlencode
-except ImportError:
-    from urllib import urlencode  # Python2
 import json
 import logging
+from urllib.parse import urlencode
 
 from django.conf import settings
 
@@ -38,7 +35,6 @@ class OvhSmsBackend(BaseSmsBackend):
         tag=None,  # string of max 20 characters
         deferred=None,
     ):  # eg. format "125025112017" for sending on 28/11/2017 at 12h50
-
         # late lookup, else tests won't work...
         OVH_API_URL = getattr(
             settings, "OVH_API_URL", "https://www.ovh.com/cgi-bin/sms/http2sms.cgi"

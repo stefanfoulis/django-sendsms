@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 __version_info__ = {
     "major": 0,
     "minor": 5,

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Esendex sms gateway backend. (http://www.esendex.es/)
 
